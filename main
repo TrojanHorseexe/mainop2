@@ -1,3 +1,4 @@
+getgenv().Security = true
 if getgenv().Obfuscater == true then
 if game.PlaceId == 5602055394 then
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/Splix"))()
@@ -1120,6 +1121,8 @@ setclipboard("https://discord.gg/Z8ysaE62Fw")
 end})
 end
 end
+end
+
 
 if getgenv().Obfuscater == false then
 game.Players.LocalPlayer:Kick('You turned off the obfuscater dumbass')
