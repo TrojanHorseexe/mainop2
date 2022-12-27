@@ -1121,7 +1121,6 @@ setclipboard("https://discord.gg/Z8ysaE62Fw")
 end})
 end
 end
-end
 
 
 if getgenv().Obfuscater == false then
