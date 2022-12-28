@@ -18,7 +18,7 @@ local playerspeed = PlayerTab:section({name = "Speed Control",side = "left",size
 local playerjump = PlayerTab:section({name = "Jump Control",side = "left",size = 105})
 local playercframe = PlayerTab:section({name = "CFrame Control",side = "right",size = 85})
 local playerantis = PlayerTab:section({name = "Antis",side = "right",size = 100})
-local playerother = PlayerTab:section({name = "Player Things",side = "right",size = 75})
+local playerother = PlayerTab:section({name = "Player Things",side = "right",size = 100})
 ----------
 --VisualsTab--
 local esp = VisualsTab:section({name = "Player Visuals",side = "left",size = 85})
@@ -28,7 +28,7 @@ local client = VisualsTab:section({name = "Client Sided",side = "right",size = 1
 local misc1 = MiscTab:section({name = "Auto-Buy",side = "left",size = 125})
 local misc2 = MiscTab:section({name = "Streak",side = "right",size = 255})
 local target = MiscTab:section({name = "Targeting",side = "left",size = 65})
-local misc3 = MiscTab:section({name = "World",side = "right",size = 125})
+local misc3 = MiscTab:section({name = "World",side = "right",size = 100})
 ----------
 --SettingsTab--
 local ui = SettingsTab:section({name = "UI",side = "left",size = 50})
@@ -307,6 +307,19 @@ end})
 
 playercframe:slider({name = "CFrame Speed",def = 3, max = 3,min = 1,rounding = true,ticking = false,measuring = "",callback = function(value)
    getgenv().Multiplier = value
+end})
+
+playerother:button({name = "Anti-AFK",callback = function()
+game.StarterGui:SetCore("SendNotification", {
+                    Title = "[ANTI AFK] Enabled",
+                    Text = "ANTI AFK Made by Security.exe#0068",
+                    Duration = 5
+                })
+            
+repeat task.wait() until game:IsLoaded()
+for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
+    v:Disable()
+end
 end})
 
 playerother:button({name = "ChatSpy",callback = function()
@@ -1052,19 +1065,6 @@ end})
 
 misc2:slider({name = "Change streaks",def = 1, max = 5000,min = 1,rounding = true,ticking = false,measuring = "",callback = function(value)
     game:GetService("Players").LocalPlayer.Information.Streaks.Value = value
-end})
-
-misc3:button({name = "Anti-AFK",callback = function()
-game.StarterGui:SetCore("SendNotification", {
-                    Title = "[ANTI AFK] Enabled",
-                    Text = "ANTI AFK Made by Security.exe#0068",
-                    Duration = 5
-                })
-            
-repeat task.wait() until game:IsLoaded()
-for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
-    v:Disable()
-end
 end})
 
 misc3:button({name = "Remove Fog",callback = function()
