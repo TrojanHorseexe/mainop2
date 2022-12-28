@@ -14,7 +14,7 @@ local SettingsTab = window:page({name = "Settings"})
 local aim = AimTab:section({name = "AimLock",side = "left",size = 50})
 ----------
 --PlayerTab--
-local playerspeed = PlayerTab:section({name = "Speed Control",side = "left",size = 50})
+local playerspeed = PlayerTab:section({name = "Speed Control",side = "left",size = 83})
 local playerjump = PlayerTab:section({name = "Jump Control",side = "left",size = 105})
 local playercframe = PlayerTab:section({name = "CFrame Control",side = "right",size = 85})
 local playerantis = PlayerTab:section({name = "Antis",side = "right",size = 100})
@@ -28,7 +28,7 @@ local client = VisualsTab:section({name = "Client Sided",side = "right",size = 1
 local misc1 = MiscTab:section({name = "Auto-Buy",side = "left",size = 125})
 local misc2 = MiscTab:section({name = "Streak",side = "right",size = 255})
 local target = MiscTab:section({name = "Targeting",side = "left",size = 65})
-local misc3 = MiscTab:section({name = "World",side = "right",size = 100})
+local misc3 = MiscTab:section({name = "World",side = "right",size = 125})
 ----------
 --SettingsTab--
 local ui = SettingsTab:section({name = "UI",side = "left",size = 50})
@@ -166,18 +166,17 @@ game:GetService("RunService").heartbeat:Connect(function()
 end)
 game.Players.LocalPlayer.Character.Humanoid.HipHeight = 1.6
 wait(0.5)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players[value].Character.HumanoidRootPart.CFrame * CFrame.new(0,0,3)
-wait(0.4)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players[value].Character.HumanoidRootPart.CFrame * CFrame.new(0,0,3)
+wait(0.3)
 game.Players.LocalPlayer.Character.Humanoid.HipHeight = 2
 getgenv().target = false
-GetPlayerByName()
 end})
 
 --PlayerTab Scripts--
 playerspeed:button({name = "Speed (C)",callback = function()
    local Toggled = false
    local KeyCode = 'c'
-        
+        getgenv().speed = 1
         
     _G.Running = true
         game:GetService('UserInputService').InputBegan:Connect(function(Key)
@@ -195,15 +194,7 @@ playerspeed:button({name = "Speed (C)",callback = function()
                    if Key.KeyCode == Enum.KeyCode[KeyCode:upper()] and not game:GetService('UserInputService'):GetFocusedTextBox() then
                                _G.Running = true
                                while _G.Running == true do
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.lookVector * 1
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.lookVector * 1
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.lookVector * 1
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.lookVector * 1
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.lookVector * 1
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.lookVector * 1
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.lookVector * 1
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.lookVector * 1
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.lookVector * 1
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.lookVector * getgenv().speed
                    wait()
                         
                                   end
@@ -217,6 +208,10 @@ playerspeed:button({name = "Speed (C)",callback = function()
           
              
         end)
+end})
+
+playerspeed:slider({name = "Player Speed",def = 1, max = 10,min = 1,rounding = true,ticking = false,measuring = "",callback = function(value)
+    getgenv().speed = value
 end})
 
 playerjump:button({name = "Inf Jump",callback = function()
@@ -848,36 +843,6 @@ client:button({name = "Korblox",callback = function()
 end})
 --MiscTab--
 
-misc1:button({name = "Armor",callback = function(x)
-local p1 = game.Players.LocalPlayer.Character.HumanoidRootPart
-local item0 = "[High Armor] - $550"
-local pos = p1.CFrame
-getgenv().armor = true 
-
-game:GetService("RunService").heartbeat:Connect(function()
-    if getgenv().armor == true then 
-    local abc = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
-    game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0,-1000,0)
-    game:GetService("RunService").RenderStepped:Wait()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = abc
-    end
-end)
-
-game.Players.LocalPlayer.Character.Humanoid.HipHeight = 1.5
-wait(0.5)
-game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart').CFrame = CFrame.new(-1229.43945, 333.783966, -514.504639, 0.15644598, -6.56401025e-05, -0.987686574, 6.56401025e-05, 1, -5.60612789e-05, 0.987686574, -5.60612789e-05, 0.15644598)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Ignored.Shop.Armor["[High Armor] - $550"].Head.CFrame * CFrame.new(0,-1,0)
-wait(0.3)
-fireclickdetector(game:GetService("Workspace").Ignored.Shop.Armor["[High Armor] - $550"].ClickDetector)
-
-wait(0.4)
-p1.CFrame = pos
-
-game.Players.LocalPlayer.Character.Humanoid.HipHeight = 2
-wait(0.5)
-getgenv().armor = false
-end})
-
 misc1:button({name = "DB, REV, food",callback = function()
 local p1 = game.Players.LocalPlayer.Character.HumanoidRootPart
 local item1 = "[Double Barrel SG] - $800"
@@ -895,34 +860,34 @@ game:GetService("RunService").heartbeat:Connect(function()
 end)
 
 game.Players.LocalPlayer.Character.Humanoid.HipHeight = 1.5
-wait(0.5)
+wait(0.3)
 game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart').CFrame = CFrame.new(-1013.24921, 327.755249, -51.5214233, 1, 0, 0, 0, 1, 0, 0, 0, 1)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Ignored.Shop.Guns["[Double Barrel SG] - $800"].Head.CFrame * CFrame.new(0,-1,0)
 wait(0.3)
 
 fireclickdetector(game:GetService("Workspace").Ignored.Shop.Guns["[Double Barrel SG] - $800"].ClickDetector)
-wait(0.4)
+wait(0.3)
 
 p1.CFrame = pos
 
 game.Players.LocalPlayer.Character.Humanoid.HipHeight = 2
-wait(0.5)
+wait(0.3)
 getgenv().other = false
 wait(1)
 
 local item2 = "[Revolver] - $1600"
 getgenv().other = true
 game.Players.LocalPlayer.Character.Humanoid.HipHeight = 1.5
-wait(0.5)
+wait(0.3)
 game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart').CFrame = CFrame.new(-614.686096, 327.748352, 85.671936, 1, 0, 0, 0, 1, 0, 0, 0, 1)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Ignored.Shop.Guns["[Revolver] - $1600"].Head.CFrame * CFrame.new(0,-1,0)
 wait(0.3)
 
 fireclickdetector(game:GetService("Workspace").Ignored.Shop.Guns["[Revolver] - $1600"].ClickDetector)
-wait(0.4)
+wait(0.3)
 p1.CFrame = pos
 game.Players.LocalPlayer.Character.Humanoid.HipHeight = 2
-wait(0.5)
+wait(0.3)
 getgenv().other = false
 
 wait(1)
@@ -930,22 +895,22 @@ wait(1)
 local item3 = "[Hamburger] - $5"
 getgenv().other = true
 game.Players.LocalPlayer.Character.Humanoid.HipHeight = 1.5
-wait(0.5)
+wait(0.3)
 game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart').CFrame = CFrame.new(-260.709961, 328.648071, -604.193481, -1, 0, 0, 0, 1, 0, 0, 0, -1)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Ignored.Shop.Others["[Hamburger] - $5"].Head.CFrame * CFrame.new(0,-1,0)
 wait(0.3)
 
 fireclickdetector(game:GetService("Workspace").Ignored.Shop.Others["[Hamburger] - $5"].ClickDetector)
-wait(0.4)
+wait(0.3)
 
 p1.CFrame = pos
 
 game.Players.LocalPlayer.Character.Humanoid.HipHeight = 2
-wait(0.5)
+wait(0.3)
 getgenv().other = false
 end})
 
-misc1:button({name = "XMB, SMG, food",callback = function()
+misc1:button({name = "XMB(2 kills), SMG, food",callback = function()
 local p1 = game.Players.LocalPlayer.Character.HumanoidRootPart
 local item1 = "[XM8] - $5550"
 local pos = p1.CFrame
@@ -962,34 +927,34 @@ game:GetService("RunService").heartbeat:Connect(function()
 end)
 
 game.Players.LocalPlayer.Character.Humanoid.HipHeight = 1.5
-wait(0.5)
+wait(0.3)
 game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart').CFrame = CFrame.new(-987.985352, 354.130219, -116.49482, 0, 0, 1, 0, 1, -0, -1, 0, 0)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Ignored.Shop.Guns["[XM8] - $5550"].Head.CFrame * CFrame.new(0,-1,0)
 wait(0.3)
 
 fireclickdetector(game:GetService("Workspace").Ignored.Shop.Guns["[XM8] - $5550"].ClickDetector)
-wait(0.4)
+wait(0.3)
 
 p1.CFrame = pos
 
 game.Players.LocalPlayer.Character.Humanoid.HipHeight = 2
-wait(0.5)
+wait(0.3)
 getgenv().other2 = false
 wait(1)
 
 local item2 = "[SMG] - $700"
 getgenv().other2 = true
 game.Players.LocalPlayer.Character.Humanoid.HipHeight = 1.5
-wait(0.5)
+wait(0.3)
 game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart').CFrame = CFrame.new(-552.491211, 314.313049, -513.74585, -1, 0, 0, 0, 1, 0, 0, 0, -1)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Ignored.Shop.Guns["[SMG] - $700"].Head.CFrame * CFrame.new(0,-1,0)
 wait(0.3)
 
 fireclickdetector(game:GetService("Workspace").Ignored.Shop.Guns["[SMG] - $700"].ClickDetector)
-wait(0.4)
+wait(0.3)
 p1.CFrame = pos
 game.Players.LocalPlayer.Character.Humanoid.HipHeight = 2
-wait(0.5)
+wait(0.3)
 getgenv().other2 = false
 
 wait(1)
@@ -997,23 +962,52 @@ wait(1)
 local item3 = "[Hamburger] - $5"
 getgenv().other2 = true
 game.Players.LocalPlayer.Character.Humanoid.HipHeight = 1.5
-wait(0.5)
+wait(0.3)
 game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart').CFrame = CFrame.new(-260.709961, 328.648071, -604.193481, -1, 0, 0, 0, 1, 0, 0, 0, -1)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Ignored.Shop.Others["[Hamburger] - $5"].Head.CFrame * CFrame.new(0,-1,0)
 wait(0.3)
 
 fireclickdetector(game:GetService("Workspace").Ignored.Shop.Others["[Hamburger] - $5"].ClickDetector)
-wait(0.4)
+wait(0.3)
 
 p1.CFrame = pos
 
 game.Players.LocalPlayer.Character.Humanoid.HipHeight = 2
-wait(0.5)
+wait(0.3)
 getgenv().other3 = false
 end})
 
+misc1:button({name = "Armor",callback = function()
+local p1 = game.Players.LocalPlayer.Character.HumanoidRootPart
+local item0 = "[High Armor] - $550"
+local pos = p1.CFrame
+getgenv().armor = true 
 
-misc1:button({name = "Food, Armor",callback = function()
+game:GetService("RunService").heartbeat:Connect(function()
+    if getgenv().armor == true then 
+    local abc = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+    game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0,-1000,0)
+    game:GetService("RunService").RenderStepped:Wait()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = abc
+    end
+end)
+
+game.Players.LocalPlayer.Character.Humanoid.HipHeight = 1.5
+wait(0.3)
+game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart').CFrame = CFrame.new(-1229.43945, 333.783966, -514.504639, 0.15644598, -6.56401025e-05, -0.987686574, 6.56401025e-05, 1, -5.60612789e-05, 0.987686574, -5.60612789e-05, 0.15644598)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Ignored.Shop.Armor["[High Armor] - $550"].Head.CFrame * CFrame.new(0,-2,0)
+wait(0.3)
+fireclickdetector(game:GetService("Workspace").Ignored.Shop.Armor["[High Armor] - $550"].ClickDetector)
+
+wait(0.3)
+p1.CFrame = pos
+
+game.Players.LocalPlayer.Character.Humanoid.HipHeight = 2
+wait(0.3)
+getgenv().armor = false
+end})
+
+misc1:button({name = "Food",callback = function()
 local p1 = game.Players.LocalPlayer.Character.HumanoidRootPart
 local item1 = "[Hamburger] - $5"
 local pos = p1.CFrame
@@ -1030,34 +1024,18 @@ game:GetService("RunService").heartbeat:Connect(function()
 end)
 
 game.Players.LocalPlayer.Character.Humanoid.HipHeight = 1.5
-wait(0.5)
+wait(0.3)
 game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart').CFrame = CFrame.new(-260.709961, 328.648071, -604.193481, -1, 0, 0, 0, 1, 0, 0, 0, -1)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Ignored.Shop.Others["[Hamburger] - $5"].Head.CFrame * CFrame.new(0,-1,0)
 wait(0.3)
 
 fireclickdetector(game:GetService("Workspace").Ignored.Shop.Others["[Hamburger] - $5"].ClickDetector)
-wait(0.4)
-
-p1.CFrame = pos
-
-game.Players.LocalPlayer.Character.Humanoid.HipHeight = 2
-wait(0.5)
-getgenv().other3 = false
-wait(1)
-local item2 = "[High Armor] - $550"
-getgenv().other3 = true
-game.Players.LocalPlayer.Character.Humanoid.HipHeight = 1.5
-wait(0.5)
-game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart').CFrame = CFrame.new(-1229.43945, 333.783966, -514.504639, 0.15644598, -6.56401025e-05, -0.987686574, 6.56401025e-05, 1, -5.60612789e-05, 0.987686574, -5.60612789e-05, 0.15644598)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Ignored.Shop.Armor["[High Armor] - $550"].Head.CFrame * CFrame.new(0,-1,0)
 wait(0.3)
-fireclickdetector(game:GetService("Workspace").Ignored.Shop.Armor["[High Armor] - $550"].ClickDetector)
 
-wait(0.4)
 p1.CFrame = pos
 
 game.Players.LocalPlayer.Character.Humanoid.HipHeight = 2
-wait(0.5)
+wait(0.3)
 getgenv().other3 = false
 end})
 
@@ -1075,6 +1053,72 @@ end})
 
 misc2:slider({name = "Change streaks",def = 1, max = 5000,min = 1,rounding = true,ticking = false,measuring = "",callback = function(value)
     game:GetService("Players").LocalPlayer.Information.Streaks.Value = value
+end})
+
+misc3:button({name = "Anti-AFK",callback = function()
+    privateProperties = {
+	Color = Color3.fromRGB(0,255,255); 
+	Font = Enum.Font.SourceSansBold;
+	TextSize = 18;
+}
+
+local StarterGui = game:GetService("StarterGui")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local saymsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
+local getmsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering")
+local instance = (_G.chatSpyInstance or 0) + 1
+_G.chatSpyInstance = instance
+
+local function onChatted(p,msg)
+	if _G.chatSpyInstance == instance then
+		if p==player and msg:lower():sub(1,4)=="/spy" then
+			enabled = not enabled
+			wait(0.3)
+			StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+		elseif enabled and (spyOnMyself==true or p~=player) then
+			msg = msg:gsub("[\n\r]",''):gsub("\t",' '):gsub("[ ]+",' ')
+			local hidden = true
+			local conn = getmsg.OnClientEvent:Connect(function(packet,channel)
+				if packet.SpeakerUserId==p.UserId and packet.Message==msg:sub(#msg-#packet.Message+1) and (channel=="All" or (channel=="Team" and public==false and Players[packet.FromSpeaker].Team==player.Team)) then
+					hidden = false
+				end
+			end)
+			wait(1)
+			conn:Disconnect()
+			if hidden and enabled then
+				if public then
+					saymsg:FireServer((publicItalics and "/me " or '').."Logged [".. p.Name .."]: "..msg,"All")
+				else
+					privateProperties.Text = "Logged [".. p.Name .."]: "..msg
+					StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+				end
+			end
+		end
+	end
+end
+
+for _,p in ipairs(Players:GetPlayers()) do
+	p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+end
+Players.PlayerAdded:Connect(function(p)
+	p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+end)
+StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+local chatFrame = player.PlayerGui.Chat.Frame
+chatFrame.ChatChannelParentFrame.Visible = true
+chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
+
+game.StarterGui:SetCore("SendNotification", {
+                    Title = "[ANTI AFK] Enabled",
+                    Text = "ANTI AFK Made by Security.exe#0068",
+                    Duration = 5
+                })
+    
+repeat task.wait() until game:IsLoaded()
+for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
+    v:Disable()
+end
 end})
 
 misc3:button({name = "Remove Fog",callback = function()
@@ -1121,7 +1165,6 @@ end})
 end
 end
 
-
 if getgenv().Obfuscater == false then
-game.Players.LocalPlayer:Kick('You turned off the obfuscater dumbass')
+game.Players.LocalPlayer:Kick('Obfuscater Turned off')
 end
