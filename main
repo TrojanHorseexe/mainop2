@@ -1,49 +1,19 @@
 if getgenv().Obfuscater == true then
 if game.PlaceId == 5602055394 then
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/Splix"))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/AltForSecurity/NewLibByMe/main/NewLiBByMe'))()
+-- [Aim Tab UI] ------------------------------------------------------------------------------------------------------------------------------------------------------------
+local AimTab = library:AddTab("Aim"); 
+local AimColoum = AimTab:AddColumn();
+local AimMain = AimColoum:AddSection("AimLock")
 
-local window = library:new({textsize = 13.5,font = Enum.Font.RobotoMono,name = "Security | Hood Modded",color = Color3.fromRGB(25, 240, 100)})
+AimMain:AddDivider("Main");
 
-local AimTab = window:page({name = "Aim"})
-local PlayerTab = window:page({name = "Player"})
-local VisualsTab = window:page({name = "Visuals"})
-local MiscTab = window:page({name = "Misc"})
-local SettingsTab = window:page({name = "Settings"})
-
---AimTab--
-local aim = AimTab:section({name = "AimLock",side = "left",size = 50})
-----------
---PlayerTab--
-local playerspeed = PlayerTab:section({name = "Speed Control",side = "left",size = 83})
-local playerjump = PlayerTab:section({name = "Jump Control",side = "left",size = 105})
-local playercframe = PlayerTab:section({name = "CFrame Control",side = "right",size = 85})
-local playerantis = PlayerTab:section({name = "Antis",side = "right",size = 100})
-local playerother = PlayerTab:section({name = "Player Things",side = "right",size = 100})
-----------
---VisualsTab--
-local esp = VisualsTab:section({name = "Player Visuals",side = "left",size = 85})
-local client = VisualsTab:section({name = "Client Sided",side = "right",size = 100})
-----------
---MiscTab--
-local misc1 = MiscTab:section({name = "Auto-Buy",side = "left",size = 125})
-local misc2 = MiscTab:section({name = "Streak",side = "right",size = 255})
-local target = MiscTab:section({name = "Targeting",side = "left",size = 65})
-local misc3 = MiscTab:section({name = "World",side = "right",size = 100})
-----------
---SettingsTab--
-local ui = SettingsTab:section({name = "UI",side = "left",size = 50})
-local Configs = SettingsTab:section({name = "Side",side = "right",size = 60})
-local discord = SettingsTab:section({name = "Discord",side = "right",size = 76})
-----------
-
---AimLock Scripts--
-aim:button({name = "Lock (Q)",callback = function()
- 
-local Settings = {
+AimMain:AddButton({text = "Lock (Q)", callback = function()
+    local Settings = {
     AimLock = {
         Enabled = true,
         Aimlockkey = "q",
-        Prediction = 0.12,
+        Prediction = 0.100340,
         Aimpart = 'HumanoidRootPart',
         Notifications = true
     },
@@ -153,28 +123,16 @@ mt.__namecall = newcclosure(function(...)
 end)
 end})
 
-target:textbox({name = "Target",def = "Targets name here",placeholder = "Must be full name",callback = function(value)
-getgenv().target = true
+-- [Player Tab UI] ------------------------------------------------------------------------------------------------------------------------------------------------------------
+local PlayerTab = library:AddTab("Player");
 
-game:GetService("RunService").heartbeat:Connect(function()
-    if getgenv().target == true then 
-    local abc = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
-    game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0,-1000,0)
-    game:GetService("RunService").RenderStepped:Wait()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = abc
-    end
-end)
-game.Players.LocalPlayer.Character.Humanoid.HipHeight = 1.6
-wait(0.5)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players[value].Character.HumanoidRootPart.CFrame * CFrame.new(0,0,3)
-wait(0.3)
-game.Players.LocalPlayer.Character.Humanoid.HipHeight = 2
-getgenv().target = false
-end})
+local PlayerColunm1 = PlayerTab:AddColumn();
+local PlayerMain1 = PlayerColunm1:AddSection("Speed Control")
 
---PlayerTab Scripts--
-playerspeed:button({name = "Speed (C)",callback = function()
-   local Toggled = false
+PlayerMain1:AddDivider("Speed Things")
+
+PlayerMain1:AddButton({text = "Speed (c)", callback = function()
+    local Toggled = false
    local KeyCode = 'c'
         getgenv().speed = 1
         
@@ -210,12 +168,16 @@ playerspeed:button({name = "Speed (C)",callback = function()
         end)
 end})
 
-playerspeed:slider({name = "Player Speed",def = 1, max = 10,min = 1,rounding = true,ticking = false,measuring = "",callback = function(value)
+PlayerMain1:AddSlider({text = "Player Speed", min = 1, max = 10, value = 1, callback = function(value)
     getgenv().speed = value
 end})
 
-playerjump:button({name = "Inf Jump",callback = function()
-    local Player = game:GetService'Players'.LocalPlayer;
+local PlayerMain2 = PlayerColunm1:AddSection("Jump Control")
+PlayerMain2:AddDivider("Jump Things")
+
+
+PlayerMain2:AddButton({text = "Inf Jump", callback = function()
+local Player = game:GetService'Players'.LocalPlayer;
 local UIS = game:GetService'UserInputService';
 
 _G.JumpHeight = 50
@@ -235,11 +197,11 @@ UIS.InputBegan:connect(function(UserInput)
 end)
 end})
 
-playerjump:slider({name = "Jump Height",def = 50, max = 250,min = 50,rounding = true,ticking = false,measuring = "",callback = function(value)
-   _G.JumpHeight = value
+PlayerMain2:AddSlider({text = "Jump Height", min = 50, max = 250, value = 50, callback = function(value)
+  _G.JumpHeight = value
 end})
-playerjump:button({name = "No Jump Cooldown",callback = function()
- if not game.IsLoaded(game) then 
+PlayerMain2:AddButton({text = "No Jump Cooldown", callback = function()
+    if not game.IsLoaded(game) then 
     game.Loaded.Wait(game.Loaded);
 end
 
@@ -257,8 +219,12 @@ newindex = hookmetamethod(game, "__newindex", function(self, Index, Value)
 end)
 end})
 
-playercframe:button({name = "CFrame (X)",callback = function()
-       repeat
+local PlayerColunm2 = PlayerTab:AddColumn()
+local PlayerMain3 = PlayerColunm2:AddSection("CFrame Control")
+PlayerMain3:AddDivider("CFrame Things")
+
+PlayerMain3:AddButton({text = "CFrame (x)", callback = function()
+    repeat
         wait()
     until game:IsLoaded()
     local L_134_ = game:service('Players')
@@ -305,12 +271,15 @@ playercframe:button({name = "CFrame (X)",callback = function()
 db = false
 end})
 
-playercframe:slider({name = "CFrame Speed",def = 3, max = 3,min = 1,rounding = true,ticking = false,measuring = "",callback = function(value)
+PlayerMain3:AddSlider({text = "CFrame Speed", min = 1, max = 3, value = 3, callback = function(value)
    getgenv().Multiplier = value
 end})
 
-playerother:button({name = "Anti-AFK",callback = function()
-game.StarterGui:SetCore("SendNotification", {
+local PlayerMain4 = PlayerColunm2:AddSection("Antis")
+PlayerMain4:AddDivider("Anti Things")
+
+PlayerMain4:AddButton({text = "Anti-AFK", callback = function()
+    game.StarterGui:SetCore("SendNotification", {
                     Title = "[ANTI AFK] Enabled",
                     Text = "ANTI AFK Made by Security.exe#0068",
                     Duration = 5
@@ -321,73 +290,8 @@ for i,v in pairs(getconnections(game.Players.LocalPlayer.Idled)) do
     v:Disable()
 end
 end})
-
-playerother:button({name = "ChatSpy",callback = function()
-   privateProperties = {
-	Color = Color3.fromRGB(0,255,255); 
-	Font = Enum.Font.SourceSansBold;
-	TextSize = 18;
-}
-local StarterGui = game:GetService("StarterGui")
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local saymsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
-local getmsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering")
-local instance = (_G.chatSpyInstance or 0) + 1
-_G.chatSpyInstance = instance
-
-local function onChatted(p,msg)
-	if _G.chatSpyInstance == instance then
-		if p==player and msg:lower():sub(1,4)=="/spy" then
-			enabled = not enabled
-			wait(0.3)
-			StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
-		elseif enabled and (spyOnMyself==true or p~=player) then
-			msg = msg:gsub("[\n\r]",''):gsub("\t",' '):gsub("[ ]+",' ')
-			local hidden = true
-			local conn = getmsg.OnClientEvent:Connect(function(packet,channel)
-				if packet.SpeakerUserId==p.UserId and packet.Message==msg:sub(#msg-#packet.Message+1) and (channel=="All" or (channel=="Team" and public==false and Players[packet.FromSpeaker].Team==player.Team)) then
-					hidden = false
-				end
-			end)
-			wait(1)
-			conn:Disconnect()
-			if hidden and enabled then
-				if public then
-					saymsg:FireServer((publicItalics and "/me " or '').."Logged [".. p.Name .."]: "..msg,"All")
-				else
-					privateProperties.Text = "Logged [".. p.Name .."]: "..msg
-					StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
-				end
-			end
-		end
-	end
-end
-
-for _,p in ipairs(Players:GetPlayers()) do
-	p.Chatted:Connect(function(msg) onChatted(p,msg) end)
-end
-Players.PlayerAdded:Connect(function(p)
-	p.Chatted:Connect(function(msg) onChatted(p,msg) end)
-end)
-StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
-local chatFrame = player.PlayerGui.Chat.Frame
-chatFrame.ChatChannelParentFrame.Visible = true
-chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
-end})
-playerother:button({name = "No Slow",callback = function()
-local mt = getrawmetatable(game)
-local backup
-backup = hookfunction(mt.__newindex, newcclosure(function(self, key, value)
-if key == "WalkSpeed" and value < 16 then
-value = 16
-end
-return backup(self, key, value)
-end))
-end})
-
-playerantis:button({name = "Anti-Lock (n)",callback = function()
-   getgenv().UndergroundAmount = 55
+PlayerMain4:AddButton({text = "Anti-Lock (n)", callback = function()
+    getgenv().UndergroundAmount = 55
 
 local Toggled = false
 local KeyCode = 'n'
@@ -441,7 +345,7 @@ game:GetService('UserInputService').InputBegan:Connect(function(Key)
 end)
 end})
 
-playerantis:button({name = "Anti-Lock Resolver",callback = function()
+PlayerMain4:AddButton({text = "Anti-Lock Resolver", callback = function()
     pcall(function()
     wait(0.4)
 
@@ -467,8 +371,8 @@ RunService.Heartbeat:Connect(function()
 end)
 end})
 
-playerantis:toggle({name = "Anti-Stomp",def = false,callback = function(x)
-    if x == true then
+PlayerMain4:AddToggle{text = "Anti-Stomp", flag = "AntiStompEnabled",callback = function(x)
+     if x == true then
         game:GetService('RunService'):BindToRenderStep("Anti-Stomp", 0 , function()
             if game.Players.LocalPlayer.Character.Humanoid.Health <= 10 then
                 for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
@@ -515,11 +419,85 @@ playerantis:toggle({name = "Anti-Stomp",def = false,callback = function(x)
     elseif x == false then
         game:GetService('RunService'):UnbindFromRenderStep("Anti-Stomp")
     end
+end}
+
+local PlayerMain5 = PlayerColunm2:AddSection("Player")
+PlayerMain5:AddDivider("Player Things")
+
+PlayerMain5:AddButton({text = "ChatSpy", callback = function()
+    privateProperties = {
+	Color = Color3.fromRGB(0,255,255); 
+	Font = Enum.Font.SourceSansBold;
+	TextSize = 18;
+}
+local StarterGui = game:GetService("StarterGui")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local saymsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
+local getmsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering")
+local instance = (_G.chatSpyInstance or 0) + 1
+_G.chatSpyInstance = instance
+
+local function onChatted(p,msg)
+	if _G.chatSpyInstance == instance then
+		if p==player and msg:lower():sub(1,4)=="/spy" then
+			enabled = not enabled
+			wait(0.3)
+			StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+		elseif enabled and (spyOnMyself==true or p~=player) then
+			msg = msg:gsub("[\n\r]",''):gsub("\t",' '):gsub("[ ]+",' ')
+			local hidden = true
+			local conn = getmsg.OnClientEvent:Connect(function(packet,channel)
+				if packet.SpeakerUserId==p.UserId and packet.Message==msg:sub(#msg-#packet.Message+1) and (channel=="All" or (channel=="Team" and public==false and Players[packet.FromSpeaker].Team==player.Team)) then
+					hidden = false
+				end
+			end)
+			wait(1)
+			conn:Disconnect()
+			if hidden and enabled then
+				if public then
+					saymsg:FireServer((publicItalics and "/me " or '').."Logged [".. p.Name .."]: "..msg,"All")
+				else
+					privateProperties.Text = "Logged [".. p.Name .."]: "..msg
+					StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+				end
+			end
+		end
+	end
+end
+
+for _,p in ipairs(Players:GetPlayers()) do
+	p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+end
+Players.PlayerAdded:Connect(function(p)
+	p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+end)
+StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+local chatFrame = player.PlayerGui.Chat.Frame
+chatFrame.ChatChannelParentFrame.Visible = true
+chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
 end})
 
---VisualsTab Scripts--
-esp:button({name = "ESP (L)",callback = function()
-if not game:IsLoaded() then
+PlayerMain5:AddButton({text = "No Slow", callback = function()
+local mt = getrawmetatable(game)
+local backup
+backup = hookfunction(mt.__newindex, newcclosure(function(self, key, value)
+if key == "WalkSpeed" and value < 16 then
+value = 16
+end
+return backup(self, key, value)
+end))
+end})
+
+-- [Visuals Tab UI] ------------------------------------------------------------------------------------------------------------------------------------------------------------
+local VisualsTab = library:AddTab("Visuals"); 
+local VisualsColunm1 = VisualsTab:AddColumn();
+local VisualsMain = VisualsColunm1:AddSection("Player Visuals")
+
+VisualsMain:AddDivider("Main Visuals");
+
+VisualsMain:AddButton({text = "ESP (L)", callback = function()
+    if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
@@ -822,11 +800,17 @@ end
 end)
 end})
 
-esp:slider({name = "FOV",def = 70, max = 120,min = 70,rounding = true,ticking = false,measuring = "",callback = function(value)
-    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.MAINHUD.SettingsFrame.Settings.FOV.TextBox.Text = value
+VisualsMain:AddSlider({text = "FOV", min = 70, max = 120, value = 70, callback = function(value)
+game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.MAINHUD.SettingsFrame.Settings.FOV.TextBox.Text = value
 end})
-client:button({name = "DarkChat",callback = function()
-    local player = game.Players.LocalPlayer
+
+local VisualsColunm2 = VisualsTab:AddColumn();
+local VisualsSecond = VisualsColunm2:AddSection("Client Sided")
+
+VisualsSecond:AddDivider("Client Sided Visuals")
+
+VisualsSecond:AddButton({text = "DarkChat", callback = function()
+     local player = game.Players.LocalPlayer
 
     function D()
         player.Information.DarkChat.Value = true
@@ -834,8 +818,8 @@ client:button({name = "DarkChat",callback = function()
         
 D()
 end})
-client:button({name = "Headless",callback = function()
-game.Players.LocalPlayer.Character.Head.Transparency = 1
+VisualsSecond:AddButton({text = "Headless", callback = function()
+    game.Players.LocalPlayer.Character.Head.Transparency = 1
 	game.Players.LocalPlayer.Character.Head.Transparency = 1
 	for i,v in pairs(game.Players.LocalPlayer.Character.Head:GetChildren()) do
 		if (v:IsA("Decal")) then
@@ -843,8 +827,8 @@ game.Players.LocalPlayer.Character.Head.Transparency = 1
 		end
 	end
 end})
-client:button({name = "Korblox",callback = function()
-	local ply = game.Players.LocalPlayer
+VisualsSecond:AddButton({text = "Korblox", callback = function()
+    	local ply = game.Players.LocalPlayer
 	local chr = ply.Character
 	chr.RightLowerLeg.MeshId = "902942093"
 	chr.RightLowerLeg.Transparency = "1"
@@ -853,10 +837,17 @@ client:button({name = "Korblox",callback = function()
 	chr.RightFoot.MeshId = "902942089"
 	chr.RightFoot.Transparency = "1"
 end})
---MiscTab--
 
-misc1:button({name = "DB, REV, food",callback = function()
-local p1 = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+-- [Misc Tab UI] ------------------------------------------------------------------------------------------------------------------------------------------------------------
+local MiscTab = library:AddTab("Misc"); 
+local MiscColunm1 = MiscTab:AddColumn();
+local MiscMain1 = MiscColunm1:AddSection("Buy")
+
+MiscMain1:AddDivider("Auto-Buys")
+
+MiscMain1:AddButton({text = "DB, REV, food", callback = function()
+    local p1 = game.Players.LocalPlayer.Character.HumanoidRootPart
 local item1 = "[Double Barrel SG] - $800"
 local pos = p1.CFrame
 
@@ -922,8 +913,8 @@ wait(0.3)
 getgenv().other = false
 end})
 
-misc1:button({name = "XMB(2 kills), SMG, food",callback = function()
-local p1 = game.Players.LocalPlayer.Character.HumanoidRootPart
+MiscMain1:AddButton({text = "XMB(2 kills), SMG, food", callback = function()
+    local p1 = game.Players.LocalPlayer.Character.HumanoidRootPart
 local item1 = "[XM8] - $5550"
 local pos = p1.CFrame
 
@@ -989,8 +980,8 @@ wait(0.3)
 getgenv().other3 = false
 end})
 
-misc1:button({name = "Armor",callback = function()
-local p1 = game.Players.LocalPlayer.Character.HumanoidRootPart
+MiscMain1:AddButton({text = "Armor", callback = function()
+    local p1 = game.Players.LocalPlayer.Character.HumanoidRootPart
 local item0 = "[High Armor] - $550"
 local pos = p1.CFrame
 getgenv().armor = true 
@@ -1019,8 +1010,8 @@ wait(0.3)
 getgenv().armor = false
 end})
 
-misc1:button({name = "Food",callback = function()
-local p1 = game.Players.LocalPlayer.Character.HumanoidRootPart
+MiscMain1:AddButton({text = "Food", callback = function()
+    local p1 = game.Players.LocalPlayer.Character.HumanoidRootPart
 local item1 = "[Hamburger] - $5"
 local pos = p1.CFrame
 
@@ -1051,7 +1042,29 @@ wait(0.3)
 getgenv().other3 = false
 end})
 
+local MiscMain2 = MiscColunm1:AddSection("Targeting")
+MiscMain2:AddDivider("Targeting")
 
+MiscMain2:AddBox({text = "Targets Name", skipflag = true, callback = function(value)
+getgenv().target = true
+	game:GetService("RunService").heartbeat:Connect(function()
+		if getgenv().target == true then 
+		local abc = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+		game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0,-1000,0)
+		game:GetService("RunService").RenderStepped:Wait()
+		game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = abc
+		end
+	end)
+	game.Players.LocalPlayer.Character.Humanoid.HipHeight = 1.6
+	wait(0.5)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players[value].Character.HumanoidRootPart.CFrame * CFrame.new(0,0,3)
+	wait(0.3)
+	game.Players.LocalPlayer.Character.Humanoid.HipHeight = 2
+	getgenv().target = false
+end});
+
+local MiscColunm2 = MiscTab:AddColumn();
+local MiscMain3 = MiscColunm2:AddSection("Streak")
 
 local tagtable = {}
 
@@ -1059,24 +1072,26 @@ for i,v in pairs(game:GetService("ReplicatedStorage").TagText:GetChildren()) do
         table.insert(tagtable,v.Name)
 end
 
-misc2:dropdown({name = "Streak Tag Changer",def = "",max = 10,options = tagtable,callback = function(value)
-       game:GetService("Players").LocalPlayer.Information.Tag.Value = value
+local back3 = MiscMain3:AddList({text = "Streak Tag Changer", max = 20, flag = "tagchanger", values = tagtable, value = "Serpent", callback = function(value)
+game:GetService("Players").LocalPlayer.Information.Tag.Value = value
+end});
+
+MiscMain3:AddDivider("Streak Value")
+
+MiscMain3:AddSlider({text = "Change Streaks", min = 5, max = 5000, value = 5, callback = function(value)
+game:GetService("Players").LocalPlayer.Information.Streaks.Value = value
 end})
 
-misc2:slider({name = "Change streaks",def = 1, max = 5000,min = 1,rounding = true,ticking = false,measuring = "",callback = function(value)
-    game:GetService("Players").LocalPlayer.Information.Streaks.Value = value
-end})
-
-misc3:button({name = "Remove Fog",callback = function()
+local MiscMain4 = MiscColunm2:AddSection("World")
+MiscMain4:AddButton({text = "Remove Fog", callback = function()
     game.Lighting.FogEnd = 999999
     game.Lighting.GlobalShadows = false
     game.Lighting.Sky:Destroy()
     game.Lighting.DepthOfField:Destroy()
     game.Lighting.ColorCorrection:Destroy()
 end})
-
-misc3:button({name = "Low GFX",callback = function()
-    for _,v in pairs(workspace:GetDescendants()) do
+MiscMain4:AddButton({text = "Low GFX", callback = function()
+        for _,v in pairs(workspace:GetDescendants()) do
 if v.ClassName == "Part"
 or v.ClassName == "SpawnLocation"
 or v.ClassName == "WedgePart"
@@ -1086,31 +1101,137 @@ v.Material = "Plastic"
 end
 end
 end})
-
-misc3:button({name = "Turn off annoying Christmas music",callback = function()
+MiscMain4:AddButton({text = "Turn off Christmas music", callback = function()
 game:GetService("Workspace").Radio["Jingle Bells"].Playing = false
 game:GetService("Workspace").Radio.ParticleEmitter.Enabled = false
 end})
 
---SettingsTab Scripts--
+-- [Library Settings UI] -----------------------------------------------------------------------------------------------------------------------------------------------------
+local SettingsTab = library:AddTab("Settings"); 
+local SettingsColumn = SettingsTab:AddColumn(); 
+local SettingsColumn2 = SettingsTab:AddColumn(); 
+local SettingSection = SettingsColumn:AddSection("Menu"); 
+local ConfigSection = SettingsColumn2:AddSection("Configs");
+local Warning = library:AddWarning({type = "confirm"});
 
-ui:keybind({name = "set ui keybind",def = nil,callback = function(key)
-   window.key = key
+SettingSection:AddBind({text = "UI Keybind", flag = "UI Toggle", nomouse = true, key = "End", callback = function()
+    library:Close();
+end});
+
+SettingSection:AddColor({text = "Accent Color", flag = "Menu Accent Color", color = Color3.new(0.599623620510101318359375, 0.447115242481231689453125, 0.97174417972564697265625), callback = function(color)
+    if library.currentTab then
+        library.currentTab.button.TextColor3 = color;
+    end
+    for i,v in pairs(library.theme) do
+        v[(v.ClassName == "TextLabel" and "TextColor3") or (v.ClassName == "ImageLabel" and "ImageColor3") or "BackgroundColor3"] = color;
+    end
+end});
+
+-- [Background List]
+local backgroundlist = {
+    Floral = "rbxassetid://5553946656",
+    Flowers = "rbxassetid://6071575925",
+    Circles = "rbxassetid://6071579801",
+    Hearts = "rbxassetid://6073763717"
+};
+
+-- [Background List]
+local back = SettingSection:AddList({text = "Background", max = 4, flag = "background", values = {"Floral", "Flowers"}, value = "Floral", callback = function(v)
+    if library.main then
+        library.main.Image = backgroundlist[v];
+    end
+end});
+
+-- [Background Color Picker]
+back:AddColor({flag = "backgroundcolor", color = Color3.new(), callback = function(color)
+    if library.main then
+        library.main.ImageColor3 = color;
+    end
+end, trans = 1, calltrans = function(trans)
+    if library.main then
+        library.main.ImageTransparency = 1 - trans;
+    end
+end});
+
+-- [Tile Size Slider]
+SettingSection:AddSlider({text = "Background Size", min = 50, max = 500, value = 105, callback = function(size)
+    if library.main then
+        library.main.TileSize = UDim2.new(0, size, 0, size);
+    end
+end});
+
+-- [Config Box]
+ConfigSection:AddBox({text = "Config Name", skipflag = true});
+
+-- [Config List]
+ConfigSection:AddList({text = "Configs", skipflag = true, value = "", flag = "Config List", values = library:GetConfigs()});
+
+-- [Create Button]
+ConfigSection:AddButton({text = "Create", callback = function()
+    library:GetConfigs();
+    writefile(library.foldername .. "/" .. library.flags["Config Name"] .. library.fileext, "{}");
+    library.options["Config List"]:AddValue(library.flags["Config Name"]);
+end});
+
+-- [Save Button]
+ConfigSection:AddButton({text = "Save", callback = function()
+    local r, g, b = library.round(library.flags["Menu Accent Color"]);
+    Warning.text = "Are you sure you want to save the current settings to config <font color='rgb(" .. r .. "," .. g .. "," .. b .. ")'>" .. library.flags["Config List"] .. "</font>?";
+    if Warning:Show() then
+        library:SaveConfig(library.flags["Config List"]);
+    end
+end});
+
+-- [Load Button]
+ConfigSection:AddButton({text = "Load", callback = function()
+    local r, g, b = library.round(library.flags["Menu Accent Color"]);
+    Warning.text = "Are you sure you want to load config <font color='rgb(" .. r .. "," .. g .. "," .. b .. ")'>" .. library.flags["Config List"] .. "</font>?";
+    if Warning:Show() then
+        library:LoadConfig(library.flags["Config List"]);
+    end
+end});
+
+-- [Delete Button]
+ConfigSection:AddButton({text = "Delete", callback = function()
+    local r, g, b = library.round(library.flags["Menu Accent Color"]);
+    Warning.text = "Are you sure you want to delete config <font color='rgb(" .. r .. "," .. g .. "," .. b .. ")'>" .. library.flags["Config List"] .. "</font>?";
+    if Warning:Show() then
+        local config = library.flags["Config List"];
+        if table.find(library:GetConfigs(), config) and isfile(library.foldername .. "/" .. config .. library.fileext) then
+            library.options["Config List"]:RemoveValue(config);
+            delfile(library.foldername .. "/" .. config .. library.fileext);
+        end
+    end
+end});
+-- [Credits Tab UI] -----------------------------------------------------------------------------------------------------------------------------------------------------
+local CreditsTab = library:AddTab("Credits"); 
+local CredsColoum = CreditsTab:AddColumn();
+local CredsMain = CredsColoum:AddSection("Creds")
+
+CredsMain:AddButton({text = "Made by Security.exe#0068", callback = function()
+    
+end});
+
+-- [Discord Button]
+local CredsColoum2 = CreditsTab:AddColumn();
+local CredsMain1 = CredsColoum2:AddSection("Discord")
+CredsMain1:AddDivider("Leave feedback")
+CredsMain1:AddButton({text = "Copy Discord Invite", callback = function()
+    
+end});
+
+local RateScript = CredsColoum:AddSection("Script");
+
+RateScript:AddButton({text = "Thanks for using my script", callback = function()
+    
+end});
+
+RateScript:AddSlider({text = "Rate Script", min = 1, max = 100, value = 1, callback = function(value)
+
 end})
 
-Configs:slider({name = "rate script 1-100",def = 1, max = 100,min = 1,rounding = true,ticking = false,measuring = "",callback = function(value)
-    --Nothing--
-end})
-
-discord:button({name = "Leave feedback in the discord",callback = function()
-warn('the hell')
-end})
-discord:button({name = "Copy Discord Invite",callback = function()
-setclipboard("https://discord.gg/Z8ysaE62Fw")
-end})
-end
-end
-
-if getgenv().Obfuscater == false then
-game.Players.LocalPlayer:Kick('Obfuscater Turned off')
+-- [Init] --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+library:Init();
+library:selectTab(library.tabs[1]);
+    end
 end
